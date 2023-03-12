@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { TbWorld } from "react-icons/tb";
 import { breakpoints } from "../../GlobalStyles";
 import Card from "../components/Card";
+import placeholder from "../assets/placeholder.jpg";
 
 const Info = () => {
   const [loading, setLoading] = useState(true);
-  const [imageLoad, SetImageLoad] = useState(false);
-  const [info, setInfo] = useState({});
-  const [videos, setVideos] = useState({});
-  const [similar, setSimilar] = useState([]);
-  const [recomendations, setRecomendations] = useState({});
+  // const [imageLoad, SetImageLoad] = useState(false);
+
+  const [data, setData] = useState({});
 
   const { category, id } = useParams();
   // console.log({category},{id})
@@ -27,49 +26,50 @@ const Info = () => {
   https://api.themoviedb.org/3/${category}/${id}/recommendations?api_key=0dc5a070f36e84311c0ff991acad3019&language=en-US&page=1`;
 
   useEffect(() => {
+    const petitions = [url, urlVideos, urlSimilar, urlRecomendations].map(
+      (petition) => fetch(petition)
+    );
+
+    setLoading(true);
     const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        setInfo(data);
-        // console.log(data);
+      await Promise.all(petitions).then((response) =>
+        Promise.all(response.map((item) => item.json()))
+          .then((data) => {
+            setData({
+              info: data[0],
+              videos: data[1],
+              similar: data[2].results,
+              recomendations: data[3].results,
+            });
+          })
+          .catch((err) => console.log(err))
+      );
 
-        const responseVideos = await fetch(urlVideos);
-        const videosData = await responseVideos.json();
-        setVideos(videosData.results.slice(0, 3));
-
-        const reponseSimiliar = await fetch(urlSimilar);
-        const dataSimilar = await reponseSimiliar.json();
-        setSimilar(dataSimilar.results);
-
-        const reponseRecomendations = await fetch(urlRecomendations);
-        const dataRecomendations = await reponseRecomendations.json();
-        setRecomendations(dataRecomendations.results);
-        // console.log(dataSimilar);
-        // console.log(imageLoad);
-      } catch (error) {
-        console.log(error);
-      }
       setLoading(false);
     };
+
     fetchData();
   }, [id]);
 
   return (
     <>
+      {loading && <Modal />}
       {!loading && (
         <>
-          {!imageLoad && <Modal />}
           <Main>
             <ImageContainer>
-              <Image
-                src={`https://image.tmdb.org/t/p/original/${info.backdrop_path}`}
-                onLoad={() => SetImageLoad(true)}
-              />
-              {info?.homepage.length > 0 ? (
+              {data.info.backdrop_path ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/original/${data.info.backdrop_path}`}
+                />
+              ) : (
+                <ImagePlaceholder src={placeholder} />
+              )}
+
+              {data.info?.homepage.length > 0 ? (
                 <WebsiteIconContainer
-                  href={info.homepage}
-                  title={info.homepage}
+                  href={data.info.homepage}
+                  title={data.info.homepage}
                 >
                   <WebsiteIcon />
                 </WebsiteIconContainer>
@@ -77,36 +77,36 @@ const Info = () => {
             </ImageContainer>
 
             <TextContainer>
-              <Title>{info.title || info.name}</Title>
+              <Title>{data.info.title || data.info.name}</Title>
               {category !== "tv" ? (
-                <Tagline>{info?.tagline}</Tagline>
+                <Tagline>{data.info?.tagline}</Tagline>
               ) : (
                 <Tagline>
-                  {info.seasons?.length}
-                  {info.seasons?.length > 1 ? " Temporadas" : " Temporada"}
+                  {data.info.seasons?.length}
+                  {data.info.seasons?.length > 1 ? " Temporadas" : " Temporada"}
                 </Tagline>
               )}
 
-              {info.genres.length > 0 && (
+              {data.info.genres.length > 0 && (
                 <GenresList>
                   <Genre>
                     Genero: {""}
-                    {info.genres.map((genre) => ` ${genre.name} | `)}
+                    {data.info.genres.map((genre) => ` ${genre.name} | `)}
                   </Genre>
                 </GenresList>
               )}
 
-              <span>{info.release_date || info.first_air_date}</span>
+              <span>{data.info.release_date || data.info.first_air_date}</span>
             </TextContainer>
-            {info?.overview.length > 0 && (
+            {data.info?.overview.length > 0 && (
               <OverviewContainer>
-                <Overview>{info.overview}</Overview>
+                <Overview>{data.info.overview}</Overview>
               </OverviewContainer>
             )}
 
-            {videos.length > 0 && (
+            {data.videos.length > 0 && (
               <ContainerVideos>
-                {videos.map((video, index) => {
+                {data.videos.map((video, index) => {
                   return (
                     <Iframe
                       //   width="560"
@@ -122,11 +122,11 @@ const Info = () => {
                 })}
               </ContainerVideos>
             )}
-            {recomendations.length > 0 && (
+            {data.recomendations.length > 0 && (
               <Wrapper>
                 <h2>Recomendaciones</h2>
                 <CardGrid>
-                  {recomendations
+                  {data.recomendations
                     .slice(0, 6)
                     .map(
                       ({
@@ -155,11 +155,11 @@ const Info = () => {
               </Wrapper>
             )}
 
-            {similar.length > 0 && (
+            {data.similar.length > 0 && (
               <Wrapper>
                 <h2>Similares</h2>
                 <CardGrid>
-                  {similar
+                  {data.similar
                     .slice(0, 6)
                     .map(
                       ({
@@ -211,6 +211,11 @@ const Main = styled.main`
 
 const ImageContainer = styled.div`
   position: relative;
+`;
+
+const ImagePlaceholder = styled.img`
+  width: 100%;
+  max-height: 80vh;
 `;
 
 const Image = styled.img`
