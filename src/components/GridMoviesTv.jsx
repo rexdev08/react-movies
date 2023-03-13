@@ -12,7 +12,6 @@ const GridMoviesTv = ({ category, order }) => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entrie) => {
         if (entrie.isIntersecting) {
-          // console.log(hasMore);
           if (hasMore) {
             setPage((page) => page + 1);
           }

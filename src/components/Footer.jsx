@@ -10,7 +10,7 @@ const Footer = () => {
 
 const FooterStyled = styled.footer`
   width: 100%;
-  height: 50px;
+  height: 3rem;
   /* min-height:100vh; */
   background-color: #1e1d1d;
   display: grid;

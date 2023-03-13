@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { useEffect, useState } from "react";
@@ -11,21 +11,23 @@ import { IoCloseSharp } from "react-icons/io5";
 const Navbar = () => {
   const navigate = useNavigate();
   const [color, setColor] = useState(false);
-  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [showMenu, setShowMenu] = useState(false);
+  const { search } = useParams();
+  // console.log(search)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (search !== "") {
-        navigate("/search" + "/" + search.replace(/\s/g, "-"));
-        setSearch("");
+      if (searchInput !== "") {
+        navigate("/search" + "/" + searchInput);
+        setSearchInput("");
       }
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [search]);
+  }, [searchInput]);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -73,8 +75,8 @@ const Navbar = () => {
               type={"search"}
               placeholder="Explora por titulos"
               name={"search"}
-              value={search}
-              onChange={(e) => setSearch(e.target.value.toUpperCase())}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
           </SearchContainer>
         </FlexContainer>

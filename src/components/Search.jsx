@@ -1,5 +1,4 @@
 import { breakpoints } from "../../GlobalStyles";
-import useFetchSearch from "../hooks/useFetchSearch";
 import Card from "./Card";
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
@@ -9,19 +8,52 @@ const Search = () => {
   const category = "movie";
   const VisorRef = useRef(null);
   const { search } = useParams();
-  // console.log(search);
+  const [page, setPage] = useState(1);
+  const [info, setInfo] = useState({});
+  const [results, setResults] = useState([]);
 
-  const [info, setPage, hasMore, setLoadMore] = useFetchSearch("movie", search);
-  // console.log({info, hasMore})
+  const key = "0dc5a070f36e84311c0ff991acad3019";
+
+  const url = `
+  https://api.themoviedb.org/3/search/${category}?api_key=${key}&query=${search}&page=${page}`;
+
+  const urlBase = `
+  https://api.themoviedb.org/3/search/${category}?api_key=${key}&query=${search}&page=1`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(urlBase);
+        const data = await response.json();
+        setInfo(data);
+        setResults(data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [search]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setInfo(data);
+        setResults([...results, ...data.results]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [page]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entrie) => {
-        if (hasMore) {
+        if (info.page < 500 && info.page < info.total_pages) {
           if (entrie.isIntersecting) {
-            // console.log(hasMore);
             setPage((page) => page + 1);
-            setLoadMore((more) => !more);
           }
         }
       });
@@ -32,13 +64,13 @@ const Search = () => {
     return () => {
       observer.disconnect();
     };
-  }, [hasMore]);
+  }, [info]);
 
   return (
     <Main>
       <GridContainer>
-        {info ? (
-          info.map((item) => {
+        {results ? (
+          results.map((item) => {
             const {
               id,
               title,

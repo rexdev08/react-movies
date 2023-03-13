@@ -27,7 +27,7 @@ const Main = styled.main`
 `;
 
 const ButtonContainer = styled.div`
-margin-top:1rem;
+  margin-top: 1rem;
   display: flex;
   flex-flow: row wrap;
   width: 100%;
@@ -36,7 +36,7 @@ margin-top:1rem;
 `;
 
 const Button = styled(NavLink)`
-font-size: clamp(0.8rem, 4vw, 1rem);
+  font-size: clamp(0.8rem, 4vw, 1rem);
   padding: clamp(0.2rem, 4vw, 0.5rem);
   /* background-color:red; */
   border-radius: 0.3rem;

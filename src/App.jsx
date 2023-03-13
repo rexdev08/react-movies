@@ -12,11 +12,13 @@ import OnAirSeries from "./components/seriesCategorys/OnAirSeries";
 import Info from "./components/Info";
 import Home from "./components/Home";
 import Search from "./components/Search";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/info/:category/:id", element: <Info /> },

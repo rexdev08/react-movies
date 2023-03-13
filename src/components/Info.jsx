@@ -37,12 +37,12 @@ const Info = () => {
           .then((data) => {
             setData({
               info: data[0],
-              videos: data[1].results.slice(0,3),
+              videos: data[1].results.slice(0, 3),
               similar: data[2].results,
               recomendations: data[3].results,
             });
 
-            console.log(data);
+            // console.log(data);
           })
           .catch((err) => console.log(err))
       );
