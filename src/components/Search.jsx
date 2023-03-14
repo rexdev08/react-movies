@@ -22,6 +22,8 @@ const Search = () => {
     import.meta.env.VITE_API_KEY
   }&query=${search}&page=1`;
 
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
