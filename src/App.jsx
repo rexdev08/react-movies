@@ -1,5 +1,5 @@
 import { GlobalStyles } from "../GlobalStyles";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/Root";
 import Series from "./components/Series";
 import Peliculas from "./components/Peliculas";
@@ -14,7 +14,7 @@ import Home from "./components/Home";
 import Search from "./components/Search";
 import ErrorPage from "./pages/ErrorPage";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Root />,

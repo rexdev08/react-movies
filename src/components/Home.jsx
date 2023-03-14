@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { breakpoints } from "../../GlobalStyles";
 import useFetchData from "../hooks/useFecthData";
 import Card from "../components/Card";
-
 import hero from "../assets/hero.jpg";
 
 const Home = () => {

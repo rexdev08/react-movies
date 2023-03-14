@@ -54,15 +54,15 @@ const Navbar = () => {
                 <IoCloseSharp />
               </CloseBtn>
 
-              <A to={"/"} onClick={() => setShowMenu(false)}>
+              <NavbarLink to={"/"} onClick={() => setShowMenu(false)}>
                 Inicio
-              </A>
-              <A to={"/series"} onClick={() => setShowMenu(false)}>
+              </NavbarLink>
+              <NavbarLink to={"/series"} onClick={() => setShowMenu(false)}>
                 Series
-              </A>
-              <A to={"peliculas"} onClick={() => setShowMenu(false)}>
+              </NavbarLink>
+              <NavbarLink to={"peliculas"} onClick={() => setShowMenu(false)}>
                 Peliculas
-              </A>
+              </NavbarLink>
             </NavlinksContainer>
           </Nav>
 
@@ -189,7 +189,7 @@ const CloseBtn = styled.button`
   }
 `;
 
-const A = styled(NavLink)`
+const NavbarLink = styled(NavLink)`
   /* width: 5rem; */
   display: grid;
   place-content: center;

@@ -5,10 +5,10 @@ const useFetchData = (category = "movie", order = "popular") => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const key = "0dc5a070f36e84311c0ff991acad3019";
-
   const url = `
-https://api.themoviedb.org/3/${category}/${order}?api_key=${key}&language=es-ES&page=${page}`;
+https://api.themoviedb.org/3/${category}/${order}?api_key=${
+    import.meta.env.VITE_API_KEY
+  }&language=es-ES&page=${page}`;
 
   useEffect(() => {
     const fetchData = async () => {

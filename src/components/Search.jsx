@@ -12,13 +12,15 @@ const Search = () => {
   const [info, setInfo] = useState({});
   const [results, setResults] = useState([]);
 
-  const key = "0dc5a070f36e84311c0ff991acad3019";
-
   const url = `
-  https://api.themoviedb.org/3/search/${category}?api_key=${key}&query=${search}&page=${page}`;
+  https://api.themoviedb.org/3/search/${category}?api_key=${
+    import.meta.env.VITE_API_KEY
+  }&query=${search}&page=${page}`;
 
   const urlBase = `
-  https://api.themoviedb.org/3/search/${category}?api_key=${key}&query=${search}&page=1`;
+  https://api.themoviedb.org/3/search/${category}?api_key=${
+    import.meta.env.VITE_API_KEY
+  }&query=${search}&page=1`;
 
   useEffect(() => {
     const fetchData = async () => {
