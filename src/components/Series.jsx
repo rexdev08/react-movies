@@ -8,9 +8,9 @@ const Series = () => {
       <Main>
         <h1>Series</h1>
         <ButtonContainer>
-          <Button to={"/peliculas"}>Popular 🔥</Button>
-          <Button to={"/peliculas/top"}>Mejor evaluadas 🥇</Button>
-          <Button to={"/peliculas/proximamente"}>Proximamente 🔜</Button>
+          <Button to={"/series"}>Popular 🔥</Button>
+          <Button to={"/series/top"}>Mejor evaluadas 🥇</Button>
+          <Button to={"/series/en-emision"}>En emision 📺</Button>
         </ButtonContainer>
         <Outlet />
       </Main>

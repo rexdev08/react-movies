@@ -2,12 +2,12 @@ import { createGlobalStyle } from "styled-components";
 
 const theme = {
   dark: {
-    colorPrimary: "#3997f7",
+    colorPrimary: "#db0000",
     bgColor: "#1D1D1F",
     textColor: "#FAFAFA",
   },
   light: {
-    colorPrimary: "#3997f7",
+    colorPrimary: "#db0000",
     bgColor: "#FAFAFA",
     textColor: "#1D1D1F",
   },
@@ -31,7 +31,7 @@ const GlobalStyles = createGlobalStyle`
 :root{
 
   //colores
-  --color-primary:#3997f7;
+  --color-primary:#db0000;
   --color-secondary:#086ACD;
   --color-third:#0A68CB;
   --color-fourth:#29d8db;
@@ -101,10 +101,10 @@ html{
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color:var(--color-primary);
+  background-color:#db0000;
   border-radius:.5rem;
   :hover{
-    background-color: whitesmoke;
+    background-color: #831010;
   }
 }
 
